@@ -1,0 +1,150 @@
+---
+title: "Albrecht_draft_analysis_two"
+format: html
+editor: visual
+---
+
+## Introduction
+
+In this analysis, I wish to test the effect of diet breadth and geographic range in neotropical birds on a this set to analyze the relationship between diet breadth and geographic range. This analysis builds off of the breadth range theory that suggests that animals with larger diet breadths are likely to have a larger geographic range because they are able to survive in a broader array of places offering diverse diets.
+
+### Hypothesis 
+
+I predict that the data will demonstrate a positive relationship between diet breadth and geographic range. I expect to see that species with broader diet breadths also will have larger geographic ranges.
+
+### Null Hypothesis 
+
+There is no correlation between diet breadth and geographic range in neotropical birds.
+
+## Setting Up
+
+Clear R's environment and open necessary packages
+
+```{r}
+rm(list = ls()) 
+library(tidyverse) 
+library("here")
+library(ggfortify)
+```
+
+Read in the data for the analysis and give it a name.
+
+```{r}
+birds <- read.csv(here("Data","frugivoria_birds_edited.csv"))
+```
+
+## Initial Plotting
+
+**Make an initial plot of the two variables being used in this analysis.**
+
+Lets start by looking at a plot of the distribution of the response variable.
+
+```{r}
+ggplot(birds, aes(observed_range_sqkm)) + 
+  geom_histogram() + 
+  theme_bw()
+```
+
+This distribution is very abnormal. I will adress this issue once I get to the step of building my model. For now I will continue and plot my response variable again my predictor one.
+
+```{r}
+ggplot(birds, aes(x=diet_breadth, y=observed_range_sqkm))+ 
+  geom_point()+
+  theme_bw()
+```
+
+**Guesstimate slope of a theoretical line that would represent the trend of the data.**
+
+I am not seeing much of a pattern right now so let's just calculate based off of the ranges of our x and y variables.
+
+Diet breadth ranges from about 0 to about 2.05
+
+Observed geographic range ranges from 1 to 19000000 square kilometers
+
+lets use these ranges to calculate a *very* rough estimate of a slope.
+
+y2 - y1 / x2 - x1
+
+(19000000 - 1)/(2.05 - 0)
+
+Our estimated slope is 18999999/2.05 = 9268292. This means with each increase of 1 diet breadth metric, we anticipate a species home range to increase 9268292 square kilometers.
+
+Its very difficult to pinpoint a y-intercept but it looks to be close to zero.
+
+Let's now alter the graph to add a both a linear and non-linear line of best fit.
+
+```{r}
+ggplot(birds, aes(x=diet_breadth, y=observed_range_sqkm))+ 
+  geom_point()+
+  geom_smooth(method = "lm", se=F) + 
+  geom_smooth(span = 1, color = "red", se = F) + 
+  xlab("Diet breadth") + 
+  ylab("Observed geographic range (km2)")
+```
+
+This is not looking fantastic, neither line seems to capture a trend. I am not optimistic will keep moving through the typical workflow and move to creating the model.
+
+## Create Model
+
+I will initially create a plain linear model. Using the autoplot() function, I check if the data meets assumptions required to conduct a linear regression.
+
+```{r}
+birds_lm <- lm(observed_range_sqkm ~ diet_breadth, data = birds)
+```
+
+### Check Assumptions
+
+```{r}
+autoplot(birds_lm)
+```
+
+The normal Q-Q graph not following the dashed line indicates that the data does not follow a normal distribution.
+
+**Lets craft a glm (generalized linear model) and see if we can find a model that better fits the distribution of our data.**
+
+The poisson family model is a non-linear model that has utility when data's upper value us unbounded.
+
+Before crafting a glm using the poisson family, get some summary statistics for our predictor variable.
+
+```{r}
+bird_summary <- birds %>% summarise(
+  mean_diet_breadth = mean(diet_breadth, na.rm = T),
+  sd_diet_breadth = sd(diet_breadth, na.rm = T)
+)
+view(bird_summary)
+anova(birds_lm)
+summary(birds_lm)
+```
+
+See if the Poisson model better represents th data.
+
+```{r}
+birds_glm <- glm(observed_range_sqkm ~ habitat_breadth, data = birds, family = poisson)
+```
+
+I am assaulted with a screen full of warnings about non-integers.
+
+Attempt to auto plot again and see if our Normal Q-Q plot looks any better.
+
+```{r}
+autoplot(birds_glm)
+```
+
+The Normal Q-Q plot looks better but still not great. Additionally, the other plots are now looking more abnormal.
+
+Lets try to run the model anyway and see what happens.
+
+## Run Model 
+
+```{r}
+anova(birds_glm)
+summary(birds_glm)
+```
+
+There is alot overdispersion! Yikes! Lets calculate the residual index anyway by dividing the residual deviance by the degrees of freedom. The class text Getting Started With R (GSWR) says a residual index over two is a sign to worry.
+
+A residual index of 3380827 is highly alarming.
+
+## Interpret Model
+
+Theoretically, I would move forward and interpret my model and plot my final results. that is not going to happen due to the extent to which my data is not-normal.

@@ -1,0 +1,175 @@
+---
+title: "Draft_analysis_1"
+format: html
+editor: visual
+---
+
+## Introduction
+
+In this first analysis, I will be looking at the relationships between diet breadth, human footprint, and IUCN status in neotropical mammals displaying frugivory to some extent. I anticipate species with wider diet breadths and lower human footprints to rank in lower IUCN classes. Cloyed et al. argues the species with narrower diet breadths are more susceptible to anthropogenic changes whilst species with broader dietary breadths are more resistant because they have more options for resources to turn to in the case one is becomes scarce or extirpated all together. the study was on cetaceans, how does this track with terrestrial mammals in the neotropics. In order to explore this relationship, I will be using ordinal regression to plot these two continuous variables as predictors to a categorical ordinal response one.
+
+IUCN status is an ordinal categorical variable, the ranks worsening in severity. From least to greatest extinction risk, the categories are as followed.
+
+NT - Near threatened
+
+VU - Vulnerable
+
+EN - Endangered
+
+CR - Critically Endangered
+
+### Hypothesis: 
+
+Both diet breadth and human footprint will have an impact on the mammal's IUCN ranking.
+
+### Null Hypothesis 
+
+Neither diet breadth nor human footprint will have an impact on the mammal's IUCN ranking.
+
+## Setting up
+
+Let's clear R's environment and open relevant packages.
+
+All packages were installed in the console window prior to creating this qmd.
+
+```{r}
+rm(list=ls())
+library(tidyverse)
+library("here")
+library(MASS)
+library(Hmisc)
+library(IDPmisc)
+library(oddsratio)
+library(visreg)
+```
+
+Read in the data and assign it a name.
+
+```{r}
+mammals <- read.csv(here("Data","Frugivoria_mammals_edited_again.csv" ))
+```
+
+Take a quick look at the data
+
+```{r}
+glimpse(mammals)
+```
+
+We have 122 observations of 13 variables. Of those 13 variables, 4 are numerical and 9 are categorical. For this analysis we are using one categorical and two numeric variables, IUCN_category, diet_breadth, and mean_human_fp_range(2020 version)
+
+## Guess Relationships
+
+### Create an Initial Plot
+
+The first step is to plot a histogram of our response variable. In this case it is IUCN status.
+
+```{r}
+ggplot(mammals, aes(IUCN_category))+
+  geom_histogram(stat="count")+ 
+  theme_bw()
+```
+
+We have quite the non-normal distribution here however it is not abnormal to what we would expect. Summary statistics for the IUCN red list demonstrate that the Vulnerable and Endangered categories composes the highest percentage of species (out of these four rankings). We can also note that our variable is an ordered one.
+
+(https://www.iucnredlist.org/resources/summary-statistics)
+
+### Transform response variable into ordered factor
+
+For an ordinal regression, it is important to let R know that our response variable is is ordinal. Therefore we should convert it from the default order (alphabetical) to increasing likelihoods of extinction.
+
+```{r}
+mammals$IUCN_category <- factor(mammals$IUCN_category,
+                                levels = c("NT","VU","EN","CR"),
+                                ordered = TRUE)
+```
+
+Now we can see that IUCN_category is an ordered factor ranking in terms of risk of extinction from least to greatest.
+
+In the class example, the next step would be to create a table to summarize the the frequencies in which observations fall into different categories. This will not work with my data because both of my predictors are numerical and thus R would create a new column/row for each unique number and will be counterproductive in trying to better understand the data by visual means.
+
+Here is the formula that would theoretically be used:
+
+**Do Not Run!**
+
+```{r}
+ftable(xtabs(~response + predictor_1 + predictor_2, data=data))
+```
+
+### Make plot of predictors and response variable 
+
+plot the predictor and response the variable one at a time because the faceting will not work with numerical variable
+
+Once again, my predictor variables both being numerical complicates exactly following the example steps. facet_grid() which would allow for use to compare our response against a second predictor only works with categorical variables. I will instead opt to create two graphs each plotting one predictor against the response.
+
+**Human footprint first**
+
+```{r}
+ggplot(mammals, aes(x=IUCN_category, y=mean_human_fp_range_2020)) + 
+  geom_boxplot() +
+  geom_jitter() +
+  theme_bw() + 
+  theme(axis.text = element_text(angle = 45, hjust = 1, vjust = 1))
+```
+
+There does not seem to be much of an observable trend. critically endangered species seemingly experince the highest human footprint. However the distribution of observations is very scattered. Vulnerable species have an unexpectedly low experience of human footprint.
+
+**Now diet breadth**
+
+```{r}
+ggplot(mammals, aes(x=IUCN_category, y=diet_breadth)) + 
+  geom_boxplot() +
+  geom_jitter() +
+  theme_bw() + 
+  theme(axis.text = element_text(angle = 45, hjust = 1, vjust = 1))
+```
+
+There does not appear to be much of a pattern Vulnerable, ENdangered, and CRitically endangered having very similar means.
+
+## Create Model
+
+Using the proporitional odds logistic regression (aka. polr()) function, create model measuring IUCN category as a factor of human footprint and diet breadth.
+
+```{r}
+mammal_model <- polr(IUCN_category ~ mean_human_fp_range_2020 + diet_breadth,data = mammals, Hess = TRUE)
+```
+
+## Check Assumptions
+
+Checking the assumptions of this model is far beyond the scope of this course and thus I will not attempt to check them. Just note it is at this point that I would check assumptions of the model.
+
+## Run Model
+
+Obtain summary statistics from our model using the summary() function.
+
+```{r}
+summary(mammal_model)
+```
+
+Here, we are given our coefficients for our predictor variables, intercepts ("cutpoints" between the ordered factors), and residual deviances.
+
+### Calculate p-values and interpret
+
+Lets calculate some p-values to better understand what these outputs indicate about significance. We will calculate our p-values by comparing our t-values to a normal distribution.
+
+Create a table from the output given when we used summary() to run the model)
+
+```{r}
+ctable <- coef(summary(mammal_model))
+```
+
+Calculate confidence intervals using the liklihood method.
+
+```{r}
+confidence_intervals <- confint(mammal_model)
+View(confidence_intervals)
+```
+
+This gives us two numbers, on at 2.5% and 97.5%. This interval accounts for 95% of the data. If the transition from the former to the latter includes the value 0 then it is not a significant predictor of our response variable.
+
+Both human footprint and diet breadth includes zeros and are thus not significant predictors of IUCN category.
+
+This does not allow use to reject our null hypothesis.
+
+At this point, we would rebuild the model with only significant predictors and obtain the p-values from that model and then move onto building a final plot. Since there are no significant predictors, I will not move forward.
+
+A possible rationale for the data not supporting is the relatively small sample size. I started out with only 122 observations and once 4 were taken away due to missing values while running the model I was down to 118.

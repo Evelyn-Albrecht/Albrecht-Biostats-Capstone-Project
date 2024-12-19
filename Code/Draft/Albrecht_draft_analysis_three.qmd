@@ -1,0 +1,212 @@
+---
+title: "Analysis_draft_analysis_three"
+format: html
+editor: visual
+---
+
+## Introduction
+
+In this third and final anaylsis, I will be looking at multiple factors contributing to neotropical birds extinction risk.
+
+```{r}
+rm(list=ls())
+library(tidyverse)
+library("here")
+library(MASS)
+library(Hmisc)
+library(IDPmisc)
+library(oddsratio)
+library(visreg)
+```
+
+```{r}
+birds <- read.csv(here("Data","frugivoria_birds_edited.csv"))
+```
+
+## Initial Plot
+
+Identify NAs before starting analysis - not using all of the data complicates
+
+## Guess Relationships
+
+```{r}
+birds$IUCN_category <- factor(birds$IUCN_category,
+                                levels = c("LC", "NT","VU","EN","CR"),
+                                ordered = TRUE)
+```
+
+```{r}
+ggplot(birds, aes(x=IUCN_category, y=diet_fruit_e)) + 
+  geom_boxplot() +
+  geom_jitter() +
+  theme_bw() 
+  
+```
+
+```{r}
+ggplot(birds, aes(x=IUCN_category, y=diet_inv_e)) + 
+  geom_boxplot() +
+  geom_jitter() +
+  theme_bw() 
+```
+
+```{r}
+ggplot(birds, aes(x=IUCN_category, y=body_size_mm)) + 
+  geom_boxplot() +
+  geom_jitter() +
+  theme_bw() 
+```
+
+```{r}
+ggplot(birds, aes(x=IUCN_category, y=longevity)) + 
+  geom_boxplot() +
+  geom_jitter() +
+  theme_bw() 
+```
+
+```{r}
+ggplot(birds, aes(x=IUCN_category, y=home_range_size)) + 
+  geom_boxplot() +
+  geom_jitter() +
+  theme_bw() 
+```
+
+```{r}
+ggplot(birds, aes(x=IUCN_category, y=generation_time)) + 
+  geom_boxplot() +
+  geom_jitter() +
+  theme_bw() 
+```
+
+## Create Model
+
+```{r}
+bird_model <- polr(IUCN_category ~ diet_fruit_e + body_size_mm + longevity + home_range_size + generation_time, data = birds, Hess = TRUE)
+```
+
+## Check Assumptions
+
+Checking the assumptions of a polr model is far beyond the scope of what was tought in this class and therefore this step will be aknowldeged and ommited. 
+
+## Run Model
+
+```{r}
+summary(bird_model)
+```
+
+### I want p-values
+
+```{r}
+ctable <- coef(summary(bird_model))
+```
+
+### Using likelihood method to find confidence intervals
+
+```{r}
+confidence_intervals <- confint(bird_model)
+```
+
+```{r}
+confint.default(bird_model)
+```
+
+All of these include 0 so nothing is a significant indicator of IUCN status
+
+### calculate odd ratios
+
+```{r}
+exp(coef(bird_model))
+```
+
+```{r}
+exp(cbind(OR = coef(bird_model),confidence_intervals))
+```
+
+## Interpret Model
+
+nothing matter. generation time has a little bit of an effect
+
+could have something to do with sampling size 1031 rows were deleted leading to a prett small set to work with (\<150)
+
+this isnt good. im fine though. it joever fr fr
+
+AHHHHHH
+
+## Final Plot
+
+Again, but adressing the NAs cause maybe that could be the problem
+
+## Attempt 2 
+
+read in the data and glimpse the structure
+
+```{r}
+bird_df <- read.csv(here("Data", "frugivoria_birds_edited.csv"))
+str(birds_df)
+```
+
+x rowa , x col
+
+at this point i would convert cat to cat all numeric so i dont have to
+
+use the complete cases function
+
+```{r}
+sum(is.na(bird_df$home_range_size))
+```
+
+927
+
+```{r}
+sum(is.na(bird_df$body_size_mm))
+```
+
+```{r}
+sum(is.na(bird_df$longevity))
+```
+
+```{r}
+sum(is.na(bird_df$generation_time))
+```
+
+```{r}
+sum(is.na(bird_df$diet_fruit_e))
+```
+
+let re-run the model without home range and longevity because of how much they eliminate. the longevty may slightly negatively effect on icun
+
+```{r}
+bird_model2 <- polr(IUCN_category ~ diet_fruit_e + body_size_mm + generation_time, data = birds, Hess = TRUE)
+```
+
+
+```{r}
+summary(bird_model2)
+```
+
+### I want p-values
+
+```{r}
+ctable <- coef(summary(bird_model2))
+```
+
+### Using likelihood method to find confidence intervals
+
+```{r}
+confidence_intervals <- confint(bird_model2)
+```
+
+```{r}
+confint.default(bird_model2)
+```
+### calculate odd ratios
+
+```{r}
+exp(coef(bird_model2))
+```
+
+```{r}
+exp(cbind(OR = coef(bird_model2),confidence_intervals))
+```
+
+## Interpret Model
