@@ -195,7 +195,7 @@ A possible rationale for the data not supporting is the relatively small sample 
 
 ## Introduction
 
-In this analysis, I wish to test the effect of diet breadth and geographic range in neotropical birds on a this set to analyze the relationship between diet breadth and geographic range. This analysis builds off of the breadth range theory that suggests that animals with larger diet breadths are likely to have a larger geographic range because they are able to survive in a broader array of places offering diverse diets.
+In this analysis, I wish to test the effect of diet breadth and geographic range in neotropical birds on a this set to analyze the relationship between diet breadth and geographic range. This analysis builds off of the breadth range theory that suggests that animals with larger diet breadths are likely to have a larger geographic range because they are able to survive in a broader array of places offering diverse diets. (Huang et al., 2021)
 
 ### Hypothesis
 
@@ -456,11 +456,11 @@ Create a table from the output given when we used summary() to run the model)
 ctable <- coef(summary(bird_model))
 ```
 
+Calculate confidence intervals using the likelihood method.
+
 ```{r}
 confidence_intervals <- confint(bird_model)
 ```
-
-Calculate confidence intervals using the liklihood method.
 
 ```{r}
 confint.default(bird_model)
@@ -472,10 +472,6 @@ All of our predictor variables include 0 in their ranges therefore none of these
 
 I would go on to calculate odds ratios at this point but I already know there is nothing of significance.
 
-## Interpret Model
-
-I found that none of the variables I
-
 ## Rebuilding the model
 
 Since so many observations were lost due to missingness, I am going to quantify NAs, I am going to see if removing any of them will do anything to possibly allow me to find significant results.
@@ -485,23 +481,23 @@ Since so many observations were lost due to missingness, I am going to quantify 
 Use the complete cases function to determine the amount of NAs for each variable.
 
 ```{r}
-sum(is.na(bird_df$home_range_size))
+sum(is.na(birds$home_range_size))
 ```
 
 ```{r}
-sum(is.na(bird_df$body_size_mm))
+sum(is.na(birds$body_size_mm))
 ```
 
 ```{r}
-sum(is.na(bird_df$longevity))
+sum(is.na(birds$longevity))
 ```
 
 ```{r}
-sum(is.na(bird_df$generation_time))
+sum(is.na(birds$generation_time))
 ```
 
 ```{r}
-sum(is.na(bird_df$diet_fruit_e))
+sum(is.na(birds$diet_fruit_e))
 ```
 
 let re-run the model without home range and longevity because of how much they eliminate. the longevty may slightly negatively effect on icun
@@ -510,45 +506,108 @@ let re-run the model without home range and longevity because of how much they e
 bird_model2 <- polr(IUCN_category ~ diet_fruit_e + body_size_mm + generation_time, data = birds, Hess = TRUE)
 ```
 
+Get summary statistics for this new model
+
 ```{r}
 summary(bird_model2)
 ```
 
-### I want p-values
+### Calculate p-values and interpret
 
 ```{r}
 ctable <- coef(summary(bird_model2))
 ```
 
-### Using likelihood method to find confidence intervals
-
-```{r}
-confidence_intervals <- confint(bird_model2)
-```
+Use se function to calculate confidence intervals
 
 ```{r}
 confint.default(bird_model2)
 ```
 
-### calculate odd ratios
+Neither body size nor generation time include 0 in their range and thus are significant predictors of IUCN status.
+
+Now that we have significance, we can move on to calculate odds ratios.
+
+First we exponentiate our coefficients from the model to get odds ratios.
 
 ```{r}
 exp(coef(bird_model2))
 ```
 
+### Create a new model with only the significant variables 
+
+rebuild the model with only body size and generation time as predictors of IUCN status.
+
 ```{r}
-exp(cbind(OR = coef(bird_model2),confidence_intervals))
+bird_model3 <- polr(IUCN_category ~ body_size_mm + generation_time, data = birds, Hess = TRUE)
 ```
 
-## Interpret Model
+### Interpret model 
 
-# Conclusion
+```{r}
+summary(bird_model3)
+```
+
+Now we can obtain our p-values for this final model
+
+Create a new table that the p-values can be combined into
+
+```{r}
+ctable2 <- coef(summary(bird_model3))
+```
+
+Calculate p-values and combine them into the table we just created.
+
+```{r}
+p <- pnorm(abs(ctable2[,"t value"]), lower.tail = FALSE) #gives us p-values for a standard normal distribution
+ctable2 <- cbind(ctable2, "p value"=p)
+```
+
+Find confidence intervals for this new this model using the likelihood and se's and normal distribution method.
+
+```{r}
+ci2 <- confint(bird_model3)
+```
+
+```{r}
+confint.default(bird_model3)
+```
+
+This is still indicating these variables are significant predictors. Good.
+
+Calculate odds ratios for this model through exponentiation
+
+```{r}
+exp(coef(bird_model3))
+```
+
+Combine these values with the rest of the table
+
+```{r}
+exp(cbind(OR=coef(bird_model3), ci2))
+```
+
+### Final Interpretation
+
+For each 1 mm increase in body size, the probability of having a high IUCN status (CR, EN, or VU instead of NT) increases by 1.001629 %.
+
+For each additional year between generations, the probability of having a high IUCN status (CR, EN, or VU instead of NT) increases by 1.185551 %.
+
+## Final plot
+
+Calculating the predicted probabilities are not going to work because my data nominal data is not in integers. Therefore I cannot calculate a range to create the new frame.
+
+I also can't once again facet grid because of all of the data being nominal.
+
+Therefore I cannot move any further than interpreting the odds ratios.
+
+## Conclusion
 
 ### Challenges
 
 I encountered many challenges throughout this process. Most of them were related to either the questions I wished to ask or the nature of my data set itself. Whilst I think that ordinal regression is cool, It was very intimidating to figure out, and even then I wasn't the one to fully figure it out (thank you so much for all the help with that). That was a situation unique to me as the only one doing ordinal logistic regression.
 
-Additionally, I think that using a trait database as opposed to a more typical dataset set me up for complications specifically regarding the normality of my data. I think that the high percentages of species ranking data deficient of least concern also limited my number of observations and made it hard to analyze. It was also very unfortunate I didn't end up getting anything significant and thus didn't get to have fun making graphs.
+Additionally, I think that using a trait database as opposed to a more typical dataset set me up for complications specifically regarding the normality of my data. I think that the high percentages of species ranking data deficient of least concern also limited my number of observations and made it hard to analyze. It was also very unfortunate that I mostly didn't get any significant results and where there was I could not plot due to the nature of my variables.
 
 ### Works Cited
 
