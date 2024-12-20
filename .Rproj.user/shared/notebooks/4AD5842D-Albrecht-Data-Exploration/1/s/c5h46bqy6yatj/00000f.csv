@@ -1,0 +1,20 @@
+"0","rm(list=ls())"
+"0","library(tidyverse)"
+"0","library(""here"")"
+"0","library(ggfortify)"
+"0","library(multcomp)"
+"2","Loading required package: mvtnorm
+"
+"2","Loading required package: survival
+"
+"2","Loading required package: TH.data
+"
+"2","
+Attaching package: ‘TH.data’
+
+"
+"2","The following object is masked from ‘package:MASS’:
+
+    geyser
+
+"

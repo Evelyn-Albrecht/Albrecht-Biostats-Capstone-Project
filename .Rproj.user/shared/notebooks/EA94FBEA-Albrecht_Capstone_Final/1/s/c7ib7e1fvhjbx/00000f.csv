@@ -1,0 +1,1 @@
+"0","mammal_model <- polr(IUCN_category ~ mean_human_fp_range_2020 + diet_breadth,data = mammals, Hess = TRUE)"

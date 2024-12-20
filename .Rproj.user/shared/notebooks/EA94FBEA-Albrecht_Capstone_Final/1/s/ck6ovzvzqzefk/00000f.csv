@@ -1,0 +1,3 @@
+"0","mammals$IUCN_category <- factor(mammals$IUCN_category,"
+"0","                                levels = c(""NT"",""VU"",""EN"",""CR""),"
+"0","                                ordered = TRUE)"

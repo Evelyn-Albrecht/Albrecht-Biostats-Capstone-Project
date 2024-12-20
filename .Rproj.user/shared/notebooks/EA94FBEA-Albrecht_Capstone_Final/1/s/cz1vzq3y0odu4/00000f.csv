@@ -1,0 +1,1 @@
+"0","bird_model3 <- polr(IUCN_category ~ body_size_mm + generation_time, data = birds, Hess = TRUE)"

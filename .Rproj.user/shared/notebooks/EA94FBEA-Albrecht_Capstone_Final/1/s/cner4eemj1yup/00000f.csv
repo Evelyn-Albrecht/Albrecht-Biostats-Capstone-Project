@@ -1,0 +1,4 @@
+"0","confidence_intervals <- confint(mammal_model)"
+"2","Waiting for profiling to be done...
+"
+"0","View(confidence_intervals)"

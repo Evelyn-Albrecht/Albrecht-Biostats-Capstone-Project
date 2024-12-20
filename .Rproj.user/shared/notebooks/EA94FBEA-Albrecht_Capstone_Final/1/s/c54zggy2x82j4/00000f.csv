@@ -1,0 +1,3 @@
+"0","birds$IUCN_category <- factor(birds$IUCN_category,"
+"0","                                levels = c(""LC"", ""NT"",""VU"",""EN"",""CR""),"
+"0","                                ordered = TRUE)"

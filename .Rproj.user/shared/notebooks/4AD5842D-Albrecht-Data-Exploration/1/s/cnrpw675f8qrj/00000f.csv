@@ -1,0 +1,4 @@
+"0","ggplot(frugivoria_mammal, aes(diet_breadth)) + "
+"0","  geom_histogram() + "
+"0","  facet_wrap(~ IUCN_category) +"
+"0","  theme_bw()"

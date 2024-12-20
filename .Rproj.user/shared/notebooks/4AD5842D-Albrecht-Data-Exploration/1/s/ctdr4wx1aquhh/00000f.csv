@@ -1,0 +1,4 @@
+"0","mammal_iucn %>%"
+"0","  group_by(IUCN_category) %>%"
+"0","  summarise(mean_diet = mean(diet_breadth), "
+"0","            sd_diet = sd(diet_breadth))"

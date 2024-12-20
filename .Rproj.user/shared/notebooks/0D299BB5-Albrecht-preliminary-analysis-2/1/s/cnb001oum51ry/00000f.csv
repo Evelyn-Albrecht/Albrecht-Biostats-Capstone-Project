@@ -1,0 +1,5 @@
+"0","ggplot(parrots, aes(x=diet_breadth, y=body_size_mm)) + "
+"0","  geom_point() + "
+"0","  xlab(""Diet breadth"") + "
+"0","  ylab(""Body size (mm)"") + "
+"0","  theme_bw()"

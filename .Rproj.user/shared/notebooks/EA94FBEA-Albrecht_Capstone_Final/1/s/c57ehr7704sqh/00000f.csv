@@ -1,0 +1,2 @@
+"0","p <- pnorm(abs(ctable2[,""t value""]), lower.tail = FALSE) #gives us p-values for a standard normal distribution"
+"0","ctable2 <- cbind(ctable2, ""p value""=p)"

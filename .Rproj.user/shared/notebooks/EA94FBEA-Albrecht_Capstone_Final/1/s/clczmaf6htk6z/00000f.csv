@@ -1,0 +1,4 @@
+"0","ggplot(birds, aes(x=IUCN_category, y=home_range_size)) + "
+"0","  geom_boxplot() +"
+"0","  geom_jitter() +"
+"0","  theme_bw() "

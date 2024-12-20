@@ -1,0 +1,1 @@
+"0","frugivoria_birds$IUCN_category <- as.factor(frugivoria_birds$IUCN_category)"

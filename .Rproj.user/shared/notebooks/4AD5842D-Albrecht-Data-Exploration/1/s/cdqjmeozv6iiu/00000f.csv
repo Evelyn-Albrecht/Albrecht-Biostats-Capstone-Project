@@ -1,0 +1,5 @@
+"0","ggplot(frugivoria_birds2, aes(x=IUCN_category, y=diet_inv_e))+ "
+"0","  geom_boxplot() +"
+"0","  theme_bw()"
+"2","Error: object 'frugivoria_birds2' not found
+"

@@ -1,0 +1,4 @@
+"0","mammals <- read.csv(here(""Data"",""Frugivoria_mammals_edited_again.csv"" ))"
+"2","Warning: cannot open file '/Users/barthelmess/Library/CloudStorage/OneDrive-St.LawrenceUniversity/Classes/Biostats/Biostats F24/Student Work/R Projects/CapDAP/Albrecht-Capstone-Project/Data/Frugivoria_mammals_edited_again.csv': No such file or directory"
+"2","Error in file(file, ""rt"") : cannot open the connection
+"

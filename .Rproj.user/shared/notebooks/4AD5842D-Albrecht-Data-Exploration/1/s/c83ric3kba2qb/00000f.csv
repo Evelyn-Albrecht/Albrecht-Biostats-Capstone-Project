@@ -1,0 +1,3 @@
+"0","ggplot(frugivoria_parrots, aes(x=diet_breadth, y=body_size_mm))+ "
+"0","  geom_point() + "
+"0","  theme_bw()"

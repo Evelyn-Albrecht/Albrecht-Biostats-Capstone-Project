@@ -1,0 +1,1 @@
+"0","mammal_iucn <- filter(frugivoria_mammal, IUCN_category == ""CR"" |  IUCN_category == ""EN"" |  IUCN_category == ""NT"" | IUCN_category == ""VU"")"
