@@ -1,0 +1,4 @@
+"0","ggplot(mammal_iucn, aes(mean_human_fp_range_2020)) + "
+"0","  geom_histogram() + "
+"0","  facet_wrap(~ IUCN_category) +"
+"0","  theme_bw()"

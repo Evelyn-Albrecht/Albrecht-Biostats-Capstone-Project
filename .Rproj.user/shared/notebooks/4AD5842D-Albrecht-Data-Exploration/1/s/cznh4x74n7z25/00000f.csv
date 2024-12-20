@@ -1,0 +1,3 @@
+"0","ggplot(frugivoria_mammals, aes(mean_human_fp_range_2020)) + "
+"0","  geom_boxplot() + "
+"0","  theme_bw()"

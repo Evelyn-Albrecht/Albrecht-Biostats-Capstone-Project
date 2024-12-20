@@ -1,0 +1,57 @@
+"0","glimpse(frugivoria_birds)"
+"1","Rows: 1,148"
+"1",""
+"1","
+"
+"1","Columns: 21"
+"1",""
+"1","
+"
+"1","$ IUCN_species_name [3m[38;5;246m<chr>[39m[23m ""Aburria aburri"", ""Acanthidops bairdi"", ""Alexandrinus krameri"", ""Alipiops…
+$ genus             [3m[38;5;246m<chr>[39m[23m ""Aburria"", ""Acanthidops"", ""Psittacula"", ""Alipiopsitta"", ""Amaurolimnas"", ""…
+$ species           [3m[38;5;246m<chr>[39m[23m ""aburri"", ""bairdi"", ""krameri"", ""xanthops"", ""concolor"", ""aestiva"", ""albifr…
+$ common_name       [3m[38;5;246m<chr>[39m[23m ""Wattled Guan"", ""Peg-billed Finch"", ""Rose-ringed Parakeet"", ""Yellow-faced…
+$ order_e           [3m[38;5;246m<chr>[39m[23m ""Galliformes"", ""Passeriformes"", ""Psittaciformes"", ""Psittaciformes"", ""Grui…
+$ family_e          [3m[38;5;246m<chr>[39m[23m ""Cracidae"", ""Emberizidae"", ""Psittacidae"", ""Psittacidae"", ""Rallidae"", ""Psi…
+$ diet_inv_e        [3m[38;5;246m<int>[39m[23m 0, 40, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 5…
+$ diet_fruit_e      [3m[38;5;246m<int>[39m[23m 100, 20, 50, 50, 10, 50, 20, 100, 40, 60, 50, 50, 60, 50, 50, 60, 40, 40,…
+$ diet_cat_e        [3m[38;5;246m<chr>[39m[23m ""FruiNect"", ""Omnivore"", ""FruiNect"", ""Omnivore"", ""Invertebrate"", ""Omnivore…
+$ diet_breadth      [3m[38;5;246m<dbl>[39m[23m 0.0000000, 1.2798542, 1.2206073, 0.6931472, 1.0889000, 0.6931472, 1.02965…
+$ min_body_size_mm  [3m[38;5;246m<dbl>[39m[23m 725, NA, 370, NA, 200, NA, 250, 310, 350, 340, NA, 380, 340, 305, 380, 33…
+$ max_body_size_mm  [3m[38;5;246m<dbl>[39m[23m 815, NA, 430, NA, 230, NA, 290, 320, 360, 350, NA, 430, 350, 345, 400, 34…
+$ body_size_mm      [3m[38;5;246m<dbl>[39m[23m 815, 130, 430, 270, 230, 370, 290, 320, 360, 350, 340, 430, 350, 345, 400…
+$ min_longevity     [3m[38;5;246m<dbl>[39m[23m NA, 2, NA, NA, NA, 49, NA, NA, NA, NA, NA, NA, NA, NA, 50, NA, 56, NA, NA…
+$ max_longevity     [3m[38;5;246m<dbl>[39m[23m NA, 5, NA, NA, NA, 70, NA, NA, 67, NA, NA, NA, NA, NA, 100, NA, 100, NA, …
+$ longevity         [3m[38;5;246m<dbl>[39m[23m NA, 5.00, 34.00, 22.70, NA, 70.00, 25.30, 22.70, 8.00, 24.50, 22.42, 42.9…
+$ min_home_range    [3m[38;5;246m<dbl>[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ max_home_range    [3m[38;5;246m<dbl>[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ home_range_size   [3m[38;5;246m<dbl>[39m[23m NA, NA, 0.75, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 46.74, NA, NA, NA, …
+$ generation_time   [3m[38;5;246m<dbl>[39m[23m 5.70, 3.80, 7.60, 6.90, 4.05, 12.30, 12.30, 12.30, 11.70, 12.30, 14.74, 1…
+$ IUCN_category     [3m[38;5;246m<chr>[39m[23m ""NT"", ""LC"", ""LC"", ""NT"", ""LC"", ""NT"", ""LC"", ""LC"", ""EN"", ""NT"", ""NT"", ""NT"", ""…"
+"1",""
+"1","
+"
+"0","glimpse(frugivoria_mammals)"
+"1","Rows: 602"
+"1",""
+"1","
+"
+"1","Columns: 12"
+"1",""
+"1","
+"
+"1","$ IUCN_species_name           [3m[38;5;246m<chr>[39m[23m ""Abrawayaomys chebezi"", ""Abrawayaomys ruschii"", ""Aconaemys fusc…
+$ common_name                 [3m[38;5;246m<chr>[39m[23m ""Chebez's spiny mouse"", ""Ruschi's rat"", ""Chilean rock rat"", ""Po…
+$ family                      [3m[38;5;246m<chr>[39m[23m ""Cricetidae"", ""Cricetidae"", ""Octodontidae"", ""Octodontidae"", ""Cr…
+$ genus                       [3m[38;5;246m<chr>[39m[23m ""Abrawayaomys"", ""Abrawayaomys"", ""Aconaemys"", ""Aconaemys"", ""Aepe…
+$ species                     [3m[38;5;246m<chr>[39m[23m ""chebezi"", ""ruschii"", ""fuscus"", ""porteri"", ""lugens"", ""reigi"", ""…
+$ subspecies                  [3m[38;5;246m<chr>[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, ""trabeata"", ""mexica…
+$ diet_cat                    [3m[38;5;246m<chr>[39m[23m ""PlantSeed"", ""PlantSeed"", ""PlantSeed"", ""PlantSeed"", ""PlantSeed""…
+$ diet_breadth                [3m[38;5;246m<dbl>[39m[23m 1.2798542, 1.2798542, 0.6730117, 0.6730117, 1.2798542, 1.279854…
+$ IUCN_category               [3m[38;5;246m<chr>[39m[23m ""DD"", ""LC"", ""LC"", ""DD"", ""LC"", ""VU"", ""LC"", ""NT"", ""LC"", ""LC"", ""LC…
+$ mean_human_fp_range_2010    [3m[38;5;246m<dbl>[39m[23m 905.6729, 968.0479, 470.0171, 458.1792, 935.0738, 1108.6734, 89…
+$ mean_human_fp_range_2020    [3m[38;5;246m<dbl>[39m[23m 1318.7000, 1300.2348, 636.7003, 619.2294, 1045.8191, 1186.7758,…
+$ percent_change_hf_2010_2020 [3m[38;5;246m<dbl>[39m[23m 45.60445, 34.31513, 35.46322, 35.15006, 11.84348, 7.04467, 19.3…"
+"1",""
+"1","
+"

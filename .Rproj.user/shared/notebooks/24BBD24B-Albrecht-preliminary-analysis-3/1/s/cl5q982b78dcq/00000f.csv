@@ -1,0 +1,2 @@
+"0","birds <- read.csv(here(""Data"",""Albrecht_Frugivoria_bird_database_2023_full.csv""))"
+"0","#I am using this original data because I am keeping all of the values instead of getting rid of outliers. additionally, I am keeping LC as a category so it is just the original dataset"

@@ -1,0 +1,3 @@
+"0","rm(list=ls())"
+"0","frugivoria_mammal <- read.csv(here(""Data"",""frugivoria_mammals_edited.csv""))"
+"0","frugivoria_bird <- read.csv(here(""Data"", ""frugivoria_birds_edited.csv""))"

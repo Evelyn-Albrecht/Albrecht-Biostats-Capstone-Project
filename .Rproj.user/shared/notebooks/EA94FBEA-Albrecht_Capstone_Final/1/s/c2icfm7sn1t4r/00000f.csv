@@ -1,0 +1,1 @@
+"0","bird_model2 <- polr(IUCN_category ~ diet_fruit_e + body_size_mm + generation_time, data = birds, Hess = TRUE)"

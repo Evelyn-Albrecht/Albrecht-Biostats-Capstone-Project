@@ -1,0 +1,1 @@
+"0","frugivoria_birds <- read.csv(here(""Data"", ""Albrecht_Frugivoria_bird_database_2023_full.csv""))"

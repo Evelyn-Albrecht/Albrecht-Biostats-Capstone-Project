@@ -1,0 +1,1 @@
+"0","frugivoria_mammals2 <- filter(frugivoria_mammals, mean_human_fp_range_2020 < 2500)"

@@ -1,0 +1,1 @@
+"0","frugivoria_parrots <- read.csv(here(""Data"",""frugivoria_parrots.csv""))"

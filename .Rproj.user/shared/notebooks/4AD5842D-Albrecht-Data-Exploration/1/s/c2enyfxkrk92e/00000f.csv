@@ -1,0 +1,3 @@
+"0","ggplot(frugivoria_birds, aes(diet_fruit_e)) + "
+"0","  geom_histogram() +"
+"0","  theme_bw()"

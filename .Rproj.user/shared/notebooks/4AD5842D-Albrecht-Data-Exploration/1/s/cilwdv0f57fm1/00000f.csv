@@ -1,0 +1,2 @@
+"0","frugivoria_birds2 <- filter(frugivoria_birds,"
+"0","                            body_size_mm <1000 & home_range_size <500 )"

@@ -1,0 +1,4 @@
+"0","ggplot(mammals, aes(IUCN_category))+"
+"0","  geom_histogram(stat=""count"")+ "
+"0","  theme_bw()"
+"2","Warning: [38;5;232mIgnoring unknown parameters: `binwidth`, `bins`, and `pad`[39m"
